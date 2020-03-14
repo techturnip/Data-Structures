@@ -268,3 +268,73 @@ class DoublyLinkedList:
                 curr_max = curr_node.value
 
         return curr_max
+
+    # LECTURE:
+    def find_middle(self):
+        """
+        Return the middle node of the doubly linked list,
+        if there are two nodes, return the left one,
+        no emptylist, length >= 1
+        1 - 2 - 3 = 2
+        1 - 2 - 3 - 4 : 2
+        """
+
+        head = self.head
+
+        tail = self.tail
+
+        while head != tail and head.next != tail:
+            head = head.next
+            tail = tail.prev
+
+        return head.value
+
+    def reverse_list(self):
+        """
+        Reverse List
+        - no recursion
+        - nor store the dll in diff data structures
+        """
+        # store curr_node for iteration
+        ch = self.head
+        ct = self.tail
+
+        while ch != ct:
+            cleft = ch
+            cright = ct
+
+            if cleft == cright:
+                return self
+
+            if cleft.prev is None and cright.next is None:
+                # swap head and tail
+                cleft.prev = self.tail.prev
+                cleft.next = None
+                cright.next = self.head.next
+                cright.prev = None
+
+                self.head = cright
+                self.tail = cleft
+
+                # update adjacent relationship
+                cright.next.prev = self.head
+                cleft.prev.next = self.tail
+                print(self.head.value)
+                print(self.tail.value)
+
+            # move right through list
+            ch = ch.next
+            # move left through list
+            ct = ct.prev
+
+            return self
+
+
+new_dll = DoublyLinkedList()
+new_dll.add_to_tail(3)
+new_dll.add_to_tail(4)
+new_dll.add_to_tail(5)
+new_dll.add_to_tail(6)
+print(new_dll)
+new_dll.reverse_list()
+print(new_dll)
