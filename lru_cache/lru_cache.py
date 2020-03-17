@@ -11,29 +11,65 @@ class LRUCache:
     def __init__(self, limit=10):
         self.limit = limit
         self.size = 0
+        # set up a dll list
         self.list = DoublyLinkedList()
+        # set up a dictionary to store the key-value entries
         self.store = dict()
 
 
     def get(self, key):
-    """
-    Retrieves the value associated with the given key. Also
-    needs to move the key-value pair to the end of the order
-    such that the pair is considered most-recently used.
-    Returns the value associated with the key or None if the
-    key-value pair doesn't exist in the cache.
-    """
-        pass
+        """
+        Retrieves the value associated with the given key. Also
+        needs to move the key-value pair to the end of the order
+        such that the pair is considered most-recently used.
+        Returns the value associated with the key or None if the
+        key-value pair doesn't exist in the cache.
+        """
+
+        # update items if used
+
+        if key in self.store:
+            node = self.store[key]
+            self.list.move_to_end(node)
+            return node.value[1]
+        else:
+            return None
 
     def set(self, key, value):
-    """
-    Adds the given key-value pair to the cache. The newly-
-    added pair should be considered the most-recently used
-    entry in the cache. If the cache is already at max capacity
-    before this entry is added, then the oldest entry in the
-    cache needs to be removed to make room. Additionally, in the
-    case that the key already exists in the cache, we simply
-    want to overwrite the old value associated with the key with
-    the newly-specified value.
-    """
-        pass
+        """
+        Adds the given key-value pair to the cache. The newly-
+        added pair should be considered the most-recently used
+        entry in the cache. If the cache is already at max capacity
+        before this entry is added, then the oldest entry in the
+        cache needs to be removed to make room. Additionally, in the
+        case that the key already exists in the cache, we simply
+        want to overwrite the old value associated with the key with
+        the newly-specified value.
+        """
+
+        # if key exists in dictionary
+        if key in self.store:
+            # grab the node by the key
+            node = self.store[key]
+            # overwrite existing node
+            node.value = (key, value)
+            # order by last used
+            self.list.move_to_end(node)
+
+            return
+
+        # handle max capacity
+        if self.size == self.limit:
+            # delete from dict
+            del self.store[self.list.head.value[0]]
+            # remove from list
+            self.list.remove_from_head()
+            # decrement size
+            self.size -= 1
+
+        # add to tail
+        self.list.add_to_tail((key, value))
+        # store in dict
+        self.store[key] = self.list.tail
+        # increment the size
+        self.size += 1
