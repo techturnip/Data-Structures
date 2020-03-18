@@ -27,7 +27,6 @@ class LRUCache:
         """
 
         # update items if used
-
         if key in self.store:
             node = self.store[key]
             self.list.move_to_end(node)
