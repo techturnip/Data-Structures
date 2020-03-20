@@ -63,7 +63,6 @@ class BinarySearchTree:
 
     # Return the maximum value found in the tree
     def get_max(self):
-        print(self.value)
         if self.right:
             return self.right.get_max()
         else:
@@ -118,18 +117,42 @@ class BinarySearchTree:
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self, node):
-        pass
+        # create a node stack
+        stack = Stack()
+
+        # push current node onto stack
+        stack.push(node)
+
+        while stack.len() > 0:
+            curr_node = stack.storage.head.value
+
+            print(curr_node.value)
+            stack.pop()
+
+            if curr_node.right:
+                stack.push(curr_node.right)
+            if curr_node.left:
+                stack.push(curr_node.left)
 
     # STRETCH Goals -------------------------
     # Note: Research may be required
 
     # Print Pre-order recursive DFT
     def pre_order_dft(self, node):
-        pass
+        print(node.value)
+        if node.left:
+            node.pre_order_dft(node.left)
+        if node.right:
+            node.pre_order_dft(node.right)
+
 
     # Print Post-order recursive DFT
     def post_order_dft(self, node):
-        pass
+        if node.left:
+            node.post_order_dft(node.left)
+        if node.right:
+            node.post_order_dft(node.right)
+        print(node.value)
 
 
 bst = BinarySearchTree(1)
@@ -141,4 +164,4 @@ bst.insert(3)
 bst.insert(4)
 bst.insert(2)
 
-bst.bft_print(bst)
+bst.dft_print(bst)
