@@ -82,10 +82,17 @@ class BinarySearchTree:
     # Print all the values in order from low to high
     # Hint:  Use a recursive, depth first traversal
     def in_order_print(self, node):
+        # if left node
         if node.left:
+            # recurse down the left side
             node.in_order_print(node.left)
+
+        # print left side then root then right side
         print(node.value)
+
+        # if right node
         if node.right:
+            # recurse down the right side
             node.in_order_print(node.right)
 
     # Print the value of every node, starting with the given node,
@@ -101,7 +108,9 @@ class BinarySearchTree:
             # store next node to print
             curr_node = queue.storage.tail.value
 
+            # dequeue node
             queue.dequeue()
+            # print node
             print(curr_node.value)
 
             # add children to queue
@@ -109,10 +118,6 @@ class BinarySearchTree:
                 queue.enqueue(curr_node.left)
             if curr_node.right:
                 queue.enqueue(curr_node.right)
-
-
-
-            # print the popped off value
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
@@ -124,14 +129,21 @@ class BinarySearchTree:
         stack.push(node)
 
         while stack.len() > 0:
+            # grab the current node
             curr_node = stack.storage.head.value
 
+            # print the curr node value
             print(curr_node.value)
+            # pop it off
             stack.pop()
 
+            # if there is a right node
             if curr_node.right:
+                # push node onto stack
                 stack.push(curr_node.right)
+            # if there is a left node
             if curr_node.left:
+                # push node onto stack
                 stack.push(curr_node.left)
 
     # STRETCH Goals -------------------------
@@ -153,15 +165,3 @@ class BinarySearchTree:
         if node.right:
             node.post_order_dft(node.right)
         print(node.value)
-
-
-bst = BinarySearchTree(1)
-bst.insert(8)
-bst.insert(5)
-bst.insert(7)
-bst.insert(6)
-bst.insert(3)
-bst.insert(4)
-bst.insert(2)
-
-bst.dft_print(bst)
